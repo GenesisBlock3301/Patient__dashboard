@@ -7,14 +7,14 @@ conda create -n patientDash python=3.8
 ```
 conda activate patientDash
 ```
-### Django setup and run
+# Django setup and run
 ```
 pip install django
 django-admin startproject patientDash
 python manage.py startapp Dashboard
 python manage.py createsuperuser
 ```
-# Run django APP
+### Run django APP
 ```
 python manage.py runserver
 ```
