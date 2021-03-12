@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-md-10 admin-part pd0">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'form' %}"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        </ol>
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="col-md-9 heading_title">
+                        All Information View
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <a href="" class="btn btn-sm btn btn-primary"><i class="fa fa-plus-circle"></i> Add
+                            Information</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                    <form class="row mb-4" method="GET">
+                        {% csrf_token %}
+                        <div class="col">
+                            <input type="text" name="q" class="form-control" placeholder="Grade"
+                                   aria-label="First name">
+                        </div>
+                        <div class="col">
+                            <input type="submit" class="form-control btn btn-primary" VALUE="Search"/>
+                        </div>
+                    </form>
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-9">
+                        {% for patient in patients %}
+                            <table class="table table-hover table-striped table-responsive view_table_cus">
+                            {% if patient.retina_image %}
+                                <tr>
+                                    <img style="width: 220px;height: 220px;border-radius: 10%;margin-bottom: 10px"
+                                         src="{{ patient.retina_image.url }}" alt="" srcset="">
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <td>Name</td>
+                                <td>:</td>
+                                <td>{{ patient.name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Age</td>
+                                <td>:</td>
+                                <td>{{ patient.age }}</td>
+                            </tr>
+                            <tr>
+                                <td>Weight</td>
+                                <td>:</td>
+                                <td>{{ patient.weight }}</td>
+                            </tr>
+                            <tr>
+                                <td>Grade</td>
+                                <td>:</td>
+                                <td>{{ patient.grade }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </table>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+                <div class="panel-footer">
+
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <nav aria-label="Page navigation">
+                            {% if patients.has_other_pages %}
+                                <ul class="pagination pagina_cus">
+                                    {% if patients.has_previous %}
+                                        <li>
+                                            <a href="?page={{ patients.previous_page_number }}" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a href="" aria-label="Previous">
+                                                <span aria-hidden="false">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% for i in patients.paginator.page_range %}
+                                        {% if patients.number == i %}
+                                            <li class="active"><span>{{ i }}</span></li>
+                                        {% else %}
+                                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if patients.has_next %}
+                                        <li>
+                                            <a href="?page={{ patients.next_page_number }}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="disabled">
+                                            <a href="#" aria-label="Next">
+                                                <span aria-hidden="false">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            {% endif %}
+                        </nav>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!--col-md-12 end-->
+    </div><!--admin-part end-->
+{% endblock %}
